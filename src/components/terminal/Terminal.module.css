@@ -1,0 +1,31 @@
+.container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+
+    background: rgb(0, 0, 0, .95);
+
+    padding: 15px 30px;
+
+    overflow-x: hidden;
+}
+
+.container::before {
+    content: '';
+    display: block;
+
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+
+    background: linear-gradient(
+            to bottom,
+            rgba(18, 16, 16, 0) 50%,
+            rgba(0, 0, 0, .25) 50%
+    );
+    background-size: 100% 8px;
+    z-index: 2;
+    pointer-events: none;
+}
