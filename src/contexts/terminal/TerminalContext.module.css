@@ -1,0 +1,7 @@
+.warning > * {
+    color: #e7cf8a !important;
+}
+
+.error > * {
+    color: #af2413 !important;
+}

@@ -1,15 +1,14 @@
+import React, { useEffect, useRef, useState } from "react";
 import styles from "./Input.module.css";
-import {useEffect, useRef, useState} from "react";
-import {useTerminal} from "../../contexts/TerminalContext";
-import {useCommand} from "../../contexts/CommandsContext";
+import { useTerminal } from "../../contexts/terminal/TerminalContext";
+import { useCommands } from "../../contexts/commands/CommandsContext";
 
 export function Input() {
     const [inputValue, setInputValue] = useState("");
 
     const ref = useRef();
-
     const terminal = useTerminal();
-    const command = useCommand();
+    const commands = useCommands();
 
     const prefix = "(./) >\u00A0";
 
@@ -34,42 +33,49 @@ export function Input() {
     }, []);
 
     const triggerCommand = (data) => {
-        terminal.addLine(...command.call(data[0], data.slice(1)));
-    }
+        try {
+            if (data[0].length === 0) return;
+            commands.execute(data[0], data.slice(1));
+        }
+        catch (e) {
+            terminal.error("Fatal error. Check console log");
+            console.log(e)
+        }
+    };
 
     const onKeyDown = (e) => {
         // eslint-disable-next-line default-case
         switch (e.key) {
             case "Enter":
                 e.preventDefault();
-                terminal.addLine(prefix + inputValue);
+                terminal.print(prefix + inputValue);
                 triggerCommand(inputValue.split(" "));
                 setInputValue("");
                 break;
             case "ArrowUp":
-                e.preventDefault();
-                break;
             case "ArrowDown":
-                e.preventDefault();
-                break;
             case "ArrowLeft":
             case "ArrowRight":
-                e.preventDefault();
-                break;
             case "Tab":
                 e.preventDefault();
                 break;
         }
-    }
+    };
 
     return (
-        <table className={styles.container}>
-            <tbody>
-                <tr>
-                    <td>{prefix.replace(" ", "\u00A0")}</td>
-                    <td><input ref={ref} className={styles.input} value={inputValue} onChange={(e) => setInputValue(e.target.value)} onKeyDown={onKeyDown} /></td>
-                </tr>
-            </tbody>
-        </table>
-    )
+        <div className={styles.container}>
+            <div style={{ display: "flex" }}>
+                <div>{prefix.replace(" ", "\u00A0")}</div>
+                <div style={{ flex: 1 }}>
+                    <textarea
+                        ref={ref}
+                        className={styles.input}
+                        value={inputValue}
+                        onChange={(e) => setInputValue(e.target.value)}
+                        onKeyDown={onKeyDown}
+                    />
+                </div>
+            </div>
+        </div>
+    );
 }
