@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import styles from "./Input.module.css";
 import { useTerminal } from "../../contexts/terminal/TerminalContext";
 import { useCommands } from "../../contexts/commands/CommandsContext";
+import {useFileSystem} from "../../contexts/fileSystem/FileSystem";
 
 export function Input() {
     const [inputValue, setInputValue] = useState("");
@@ -9,8 +10,9 @@ export function Input() {
     const ref = useRef();
     const terminal = useTerminal();
     const commands = useCommands();
+    const fileSystem = useFileSystem();
 
-    const prefix = "(./) >\u00A0";
+    const [prefix, setPrefix] = useState("");
 
     useEffect(() => {
         const setFocus = () => {
@@ -31,6 +33,10 @@ export function Input() {
             window.removeEventListener("click", handleClick);
         };
     }, []);
+
+    useEffect(() => {
+        setPrefix(`(${fileSystem.currentPath}) >\u00A0`);
+    }, [fileSystem])
 
     const triggerCommand = (data) => {
         try {
@@ -53,6 +59,9 @@ export function Input() {
                 setInputValue("");
                 break;
             case "ArrowUp":
+                e.preventDefault();
+                setInputValue(commands.lastCommand);
+                break;
             case "ArrowDown":
             case "ArrowLeft":
             case "ArrowRight":
@@ -65,7 +74,7 @@ export function Input() {
     return (
         <div className={styles.container}>
             <div style={{ display: "flex" }}>
-                <div>{prefix.replace(" ", "\u00A0")}</div>
+                <div>{  prefix.replace(" ", "\u00A0")}</div>
                 <div style={{ flex: 1 }}>
                     <textarea
                         ref={ref}

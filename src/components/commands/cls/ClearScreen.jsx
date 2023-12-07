@@ -1,5 +1,5 @@
 import {useEffect} from "react";
-import {useTerminal} from "../../contexts/terminal/TerminalContext";
+import {useTerminal} from "../../../contexts/terminal/TerminalContext";
 
 export function ClearScreen() {
     const terminal = useTerminal();

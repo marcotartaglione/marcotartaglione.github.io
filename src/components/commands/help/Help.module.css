@@ -1,0 +1,40 @@
+.thead > tr {
+    text-align: center;
+}
+
+.thead > tr > td {
+    padding: 0 15px;
+}
+
+.thead > tr > td:first-child {
+    border-left: 3px solid;
+}
+
+.thead > tr > td:last-child {
+    border-right: 3px solid;
+}
+
+.thead > tr > td {
+    border-top: 3px solid;
+    border-bottom: 3px solid;
+}
+
+.tbody > tr > td {
+    padding: 0 15px;
+}
+
+.tbody > tr:last-child > td {
+    border-bottom: 3px solid;
+}
+
+.tbody > tr > td:first-child {
+    border-left: 3px solid;
+}
+
+.tbody > tr > td:last-child {
+    border-right: 3px solid;
+}
+
+.arguments {
+    text-align: center;
+}

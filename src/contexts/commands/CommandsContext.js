@@ -1,39 +1,11 @@
-import {createContext, useContext} from "react";
-import {ClearScreen, ClearScreenData} from "../../components/commands/ClearScreen";
+import {createContext, useContext, useState} from "react";
+import {ClearScreen, ClearScreenData} from "../../components/commands/cls/ClearScreen";
 import {useTerminal} from "../terminal/TerminalContext";
-import {Echo, EchoData} from "../../components/commands/Echo";
-import {DirectoryContent, DirectoryContentData} from "../../components/commands/DirectoryContent";
+import {Echo, EchoData} from "../../components/commands/echo/Echo";
+import {DirectoryContent, DirectoryContentData} from "../../components/commands/ls/DirectoryContent";
+import {Help} from "../../components/commands/help/Help";
 
 const CommandsContext = createContext();
-
-const Help = () => {
-    return (
-        <table>
-            <tbody>
-            {
-                Object.keys(list).map((item, index) =>
-                    <tr key={index}>
-                        <td>{item}</td>
-                        <td style={{padding: "0 25px"}}>
-                            <ul style={{listStyle: "none"}}>
-                                {
-                                    list[item].data?.args?.map((arg, index) =>
-                                        <li key={index}>
-                                            {arg.length.max > 1 ? '[' : ''}{arg.name}{arg.length.min === 0 ? '?' : ''}{arg.length.max > 1 ? ', ...]' : ''}
-                                        </li>
-                                    )
-                                }
-                            </ul>
-                        </td>
-                        <td style={{paddingRight: "25px"}}>:</td>
-                        <td>{list[item].data?.description || "No description available"}</td>
-                    </tr>
-                )
-            }
-            </tbody>
-        </table>
-    )
-}
 
 const list = {
     help: {
@@ -59,36 +31,39 @@ const list = {
 }
 
 export function CommandsContextProvider({children}) {
+    // eslint-disable-next-line no-unused-vars
+    const [commands, _] = useState(list);
+
     const terminal = useTerminal();
+    const [lastCommand, setLastCommand] = useState("");
 
     const checkArguments = (args, commandData) => {
         if (!commandData || commandData.length === 0) return true;
 
-        console.log(args)
+        if (args.length === 0 && commandData[0].length.min === 0) return true;
 
         let commandDataIndex = 0,
             currentArgOccurrences = 0,
             areArgsInfinite = false,
             areArgsOptional = false;
 
-        for (let i = 0; i < args.length && currentArgOccurrences < commandData.length; i++) {
+        for (let i = 0; i < args.length && commandDataIndex < commandData.length; i++) {
             if (typeof args[i] !== commandData[commandDataIndex].type) return false;
             currentArgOccurrences++;
 
-            if (currentArgOccurrences === commandData[commandDataIndex].length.max)
-                commandDataIndex++;
             if (!areArgsInfinite && commandData[commandDataIndex].length.max === Infinity)
                 areArgsInfinite = true;
             if (!areArgsOptional && commandData[commandDataIndex].length.min === 0)
                 areArgsOptional = true;
+            if (currentArgOccurrences === commandData[commandDataIndex].length.max)
+                commandDataIndex++;
         }
-
-        console.log(commandDataIndex, commandData.length.min, areArgsInfinite);
 
         return commandDataIndex >= commandData.length.min || areArgsInfinite || areArgsOptional;
     }
 
     const execute = (command, args) => {
+        setLastCommand(command + " " + args.join(" "));
         const component = list[command];
 
         if (!component) {
@@ -105,7 +80,7 @@ export function CommandsContextProvider({children}) {
     }
 
     return (
-        <CommandsContext.Provider value={{execute: execute}}>
+        <CommandsContext.Provider value={{list: commands, lastCommand: lastCommand, execute: execute}}>
             {children}
         </CommandsContext.Provider>
     )

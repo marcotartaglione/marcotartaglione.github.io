@@ -7,7 +7,7 @@ export function Echo({args = []}) {
 export const EchoData = {
     args: [
         {
-            name: "<string>",
+            name: "<word>",
             type: "string",
             length: {
                 min: 1,

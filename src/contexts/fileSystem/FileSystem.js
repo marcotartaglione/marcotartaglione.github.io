@@ -44,48 +44,32 @@ export function FileSystemProvider({ children }) {
 
     const [currentPath, setCurrentPath] = useState("./guest/");
 
-    const convertPath = (path) => {
-        if (typeof path === typeof []) {
-            return path.join(fileSeparator);
-        } else if (typeof path === 'string') {
-            return path.split(fileSeparator);
-        } else {
-            return null;
-        }
-    }
-
-    const findDirectory = (currentDir, folderName) => {
-        return currentDir.children.find(item => item.elementName.toLowerCase() === folderName.toLowerCase());
-    }
-
-    const lsRecursive = (currentDir, path) => {
-        if (path.length === 0) {
-            return currentDir.children;
-        } else {
-            const nextFolderName = path[0];
-            const nextFolder = findDirectory(currentDir, nextFolderName);
-
-            if (nextFolder && nextFolder.type === 'dir') {
-                return lsRecursive(nextFolder, path.slice(1));
-            } else {
-                return null;
-            }
-        }
-    }
-
     const ls = (path) => {
         if (!path) path = currentPath;
+        path = path[0];
 
         if (typeof path === "string")
-            path = convertPath(path);
-        const dir = lsRecursive(fileSystem, path);
+            path = path.split(fileSeparator);
 
-        if (!dir) {
-            terminal.warning(`${path.join(fileSystem)} not found`);
-            return null;
+        if (path[0] !== '.')
+            path = [...currentPath.split(fileSeparator), ...path];
+
+        path = path.filter(item => item !== '');
+
+        let currentDir = fileSystem;
+        for (let i = 1; i < path.length; i++) {
+            let temp = currentDir.children.find(item => item.elementName.toLowerCase() === path[i].toLowerCase())
+
+            if (!temp) {
+                console.log(path)
+                terminal.warning(`Path '${path.join('/')}' not found`);
+                return null;
+            }
+
+            currentDir = temp;
         }
 
-        return dir;
+        return currentDir.children;
     }
 
     return (
