@@ -9,7 +9,6 @@ export function DirectoryContent({args = []}) {
 
     useEffect(() => {
         setData(fileSystem.ls(args));
-        console.log(fileSystem.ls(args));
     }, []);
 
     return (
@@ -29,7 +28,11 @@ export function DirectoryContent({args = []}) {
                             })
                         }
                         </tbody>
-                    </table> :
+                    </table>
+                :
+                data === undefined ?
+                    <p>Path not found</p>
+                    :
                     <p>Empty directory</p>
             }
         </>

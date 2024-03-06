@@ -14,6 +14,6 @@ export function ClearScreen() {
 export const ClearScreenData = {
     args: [],
     description: "Clears the screen",
-    manual: "When called removes all lines currently visible on the terminal screen"
+    manual: "When called removes all lines currently visible on the terminal"
 }
 

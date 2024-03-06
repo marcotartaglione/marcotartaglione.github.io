@@ -1,9 +1,9 @@
 import './App.css';
-import {Terminal} from "./components/terminal/Terminal";
-import {TerminalContextProvider} from "./contexts/terminal/TerminalContext";
-import {Input} from "./components/input/Input";
-import {CommandsContextProvider} from "./contexts/commands/CommandsContext";
-import {FileSystemProvider} from "./contexts/fileSystem/FileSystem";
+import { Terminal } from "./components/terminal/Terminal";
+import { TerminalContextProvider } from "./contexts/terminal/TerminalContext";
+import { Input } from "./components/input/Input";
+import { CommandsContextProvider } from "./contexts/commands/CommandsContext";
+import { FileSystemProvider } from "./contexts/fileSystem/FileSystem";
 
 function App() {
     return (
@@ -12,7 +12,7 @@ function App() {
                 <FileSystemProvider>
                     <CommandsContextProvider>
                         <Terminal>
-                            <Input/>
+                            <Input />
                         </Terminal>
                     </CommandsContextProvider>
                 </FileSystemProvider>

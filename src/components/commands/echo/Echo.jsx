@@ -10,7 +10,7 @@ export const EchoData = {
             name: "<word>",
             type: "string",
             length: {
-                min: 1,
+                min: 0,
                 max: Infinity
             }
         }
