@@ -15,7 +15,7 @@ export function Open(args = []) {
     }, []);
 
     return (
-        <p>{content ? "Aprendo..." : "Path is missing, empty or a directory"}</p>
+        <p>{content ? `Aprendo ${content}` : "Path is missing, empty or a directory"}</p>
     )
 }
 

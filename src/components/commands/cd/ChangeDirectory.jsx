@@ -6,7 +6,7 @@ export function ChangeDirectory({args = []}) {
 
     useEffect(() => {
         fileSystem.cd(args[0]);
-    }, [args, fileSystem]);
+    }, []);
 
     return (
         <></>

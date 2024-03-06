@@ -45,7 +45,6 @@ export function Input() {
         }
         catch (e) {
             terminal.error("Fatal error. Check console log");
-            console.log(e)
         }
     };
 

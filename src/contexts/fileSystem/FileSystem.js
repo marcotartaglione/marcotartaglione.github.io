@@ -49,22 +49,34 @@ export function FileSystemProvider({ children }) {
     const [currentPath, setCurrentPath] = useState("./guest/social");
 
     const fixPath = (path, defaultValue = null) => {
-        if (typeof path === typeof []) {
-            path = path.join("/");
+        if (Array.isArray(path)) {
+            path = path.join(fileSeparator);
         }
 
-        if ((!path || path.length === 0) && defaultValue) path = defaultValue;
-        else if ((!path || path.length === 0) && !defaultValue) return null;
+        if ((!path || path.length === 0) && defaultValue) {
+            path = defaultValue;
+        }
+        else if ((!path || path.length === 0) && !defaultValue) {
+            return null;
+        }
 
         path = path.split(fileSeparator);
 
-        if (path[0] !== '.')
+        if (path[0] !== '.') {
             path = [...currentPath.split(fileSeparator), ...path];
+        }
+
+        for (let i = 1; i < path.length; i++) {
+            if (path[i] === '..') {
+                path[i - 1] = '';
+                path[i] = '';
+            }
+        }
 
         path = path.filter(item => item !== '');
 
         return path;
-    }
+    };
 
     const isDir = (path) => {
         path = fixPath(path);
@@ -74,7 +86,7 @@ export function FileSystemProvider({ children }) {
             return false;
         }
 
-        if (path.length === 1) return fileSystem.elementName === FileSystemElementTypes.DIRECTORY;
+        if (path.length === 1) return true;
 
         let currentDir = fileSystem;
         for (let i = 1; i < path.length; i++) {
@@ -123,8 +135,9 @@ export function FileSystemProvider({ children }) {
     }
 
     const cd = (path) => {
+        path = fixPath(path);
         if (exists(path) && isDir(path)) {
-            setCurrentPath(fixPath(path).join("/"));
+            setCurrentPath(path.join(fileSeparator));
             return true;
         }
         return false;
