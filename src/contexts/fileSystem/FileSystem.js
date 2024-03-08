@@ -46,7 +46,7 @@ export function FileSystemProvider({ children }) {
         ]
     });
 
-    const [currentPath, setCurrentPath] = useState("./guest/social");
+    const [currentPath, setCurrentPath] = useState(".");
 
     const fixPath = (path, defaultValue = null) => {
         if (Array.isArray(path)) {
@@ -143,6 +143,54 @@ export function FileSystemProvider({ children }) {
         return false;
     }
 
+    const mkdir = (path) => {
+        path = fixPath(path, currentPath);
+        let returnVal = true;
+
+        setFileSystem(old => {
+            let root = old;
+            let currentDir = root;
+            for (let i = 1; i < path.length - 1; i++) {
+                currentDir = currentDir.children.find(item => item.elementName.toLowerCase() === path[i].toLowerCase())
+            }
+
+            if (currentDir === undefined) {
+                returnVal = false;
+                return root;
+            }
+
+            currentDir.children.push({
+                elementName: path[path.length - 1],
+                type: FileSystemElementTypes.DIRECTORY,
+                children: []
+            });
+
+            return root;
+        })
+
+        return returnVal;
+    }
+
+    const rmDir = (path) => {
+        path = fixPath(path, currentPath);
+
+        if (!exists(path)) {
+            return false;
+        }
+
+        setFileSystem(old => {
+            let root = old;
+            let currentDir = root;
+            for (let i = 1; i < path.length - 1; i++) {
+                currentDir = currentDir.children.find(item => item.elementName.toLowerCase() === path[i].toLowerCase())
+            }
+
+            console.log(currentDir);
+
+            return root;
+        })
+    }
+
     const content = (path) => {
         path = fixPath(path, currentPath);
 
@@ -159,7 +207,7 @@ export function FileSystemProvider({ children }) {
     }
 
     return (
-        <FileSystem.Provider value={{ currentPath: currentPath, ls: ls, cd: cd, content: content }}>
+        <FileSystem.Provider value={{ currentPath: currentPath, ls: ls, cd: cd, mkdir: mkdir, rmDir: rmDir, content: content }}>
             {children}
         </FileSystem.Provider>
     )

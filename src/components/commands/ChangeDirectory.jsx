@@ -1,4 +1,4 @@
-import {useFileSystem} from "../../../contexts/fileSystem/FileSystem";
+import {useFileSystem} from "../../contexts/fileSystem/FileSystem";
 import {useEffect} from "react";
 
 export function ChangeDirectory({args = []}) {
@@ -24,6 +24,6 @@ export const ChangeDirectoryData = {
             }
         }
     ],
-    description: "Moves to specified directory",
-    manual: "Moves the current location to the specified one"
+    description: "Move to specified directory",
+    manual: "Move from the current location to the specified one"
 }

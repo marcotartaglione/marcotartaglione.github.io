@@ -1,6 +1,7 @@
-import React, {useEffect, useRef} from "react";
+import React, {useRef} from "react";
 import style from './Terminal.module.css';
 import {useTerminal} from "../../contexts/terminal/TerminalContext";
+import {Booting} from "../../boot/Booting";
 
 export function Terminal({children}) {
     const terminalData = useTerminal();
@@ -9,11 +10,12 @@ export function Terminal({children}) {
 
     return (
         <div className={style.container} ref={ref}>
+            <Booting/>
             {terminalData.lines.map((item, index) =>
-                <React.Fragment key={index} >
+                <React.Fragment key={index}>
                     {item}
                 </React.Fragment>)}
-            {children}
+            {terminalData.isActive && children}
         </div>
     )
 }

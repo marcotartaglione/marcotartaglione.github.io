@@ -1,23 +1,21 @@
 import {createContext, useContext, useState} from "react";
-import {ClearScreen, ClearScreenData} from "../../components/commands/cls/ClearScreen";
+import {ClearScreen, ClearScreenData} from "../../components/commands/ClearScreen";
 import {useTerminal} from "../terminal/TerminalContext";
-import {Echo, EchoData} from "../../components/commands/echo/Echo";
+import {Echo, EchoData} from "../../components/commands/Echo";
 import {DirectoryContent, DirectoryContentData} from "../../components/commands/ls/DirectoryContent";
-import {Help} from "../../components/commands/help/Help";
-import {ChangeDirectory, ChangeDirectoryData} from "../../components/commands/cd/ChangeDirectory";
-import {Manual, ManualData} from "../../components/commands/man/Manual";
-import {Open, OpenData} from "../../components/commands/open/Open";
+import {Help, HelpData} from "../../components/commands/help/Help";
+import {ChangeDirectory, ChangeDirectoryData} from "../../components/commands/ChangeDirectory";
+import {Manual, ManualData} from "../../components/commands/Manual";
+import {Open, OpenData} from "../../components/commands/Open";
+import {MakeDirectory, MakeDirectoryData} from "../../components/commands/MakeDirectory";
+import {RemoveDirectory, RemoveDirectoryData} from "../../components/commands/RemoveDirectory";
 
 const CommandsContext = createContext();
 
 const list = {
     help: {
         component: Help,
-        data: {
-            args: [],
-            description: "Shows current list",
-            manual: "Show the list of all available command and their arguments"
-        }
+        data: HelpData
     },
     cls: {
         component: ClearScreen,
@@ -35,6 +33,14 @@ const list = {
         component: ChangeDirectory,
         data: ChangeDirectoryData
     },
+    mkdir: {
+        component: MakeDirectory,
+        data: MakeDirectoryData
+    },
+    rmdir: {
+        component: RemoveDirectory,
+        data: RemoveDirectoryData
+    },
     man: {
         component: Manual,
         data: ManualData
@@ -42,7 +48,7 @@ const list = {
     open: {
         component: Open,
         data: OpenData
-    }
+    },
 }
 
 const checkArgumentsReturn = Object.freeze({

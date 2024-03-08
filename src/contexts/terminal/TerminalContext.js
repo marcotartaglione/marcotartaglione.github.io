@@ -5,6 +5,7 @@ const TerminalContext = createContext();
 
 export const TerminalContextProvider = ({children}) => {
     const [lines, setLines] = useState([]);
+    const [isActive, setIsActive] = useState(false);
 
     const generateOutput = (Content, args) => {
         if (typeof Content === 'string') {
@@ -45,7 +46,10 @@ export const TerminalContextProvider = ({children}) => {
                 print: print,
                 warning: warning,
                 error: error,
-                clear: clear
+                clear: clear,
+                activate: () => setIsActive(true),
+                deActivate: () => setIsActive(false),
+                isActive: isActive
             }}
         >
             {children}

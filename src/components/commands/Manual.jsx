@@ -1,7 +1,7 @@
 import {useEffect, useState} from "react";
-import {useCommands} from "../../../contexts/commands/CommandsContext";
+import {useCommands} from "../../contexts/commands/CommandsContext";
 
-import style from "../help/Help.module.css";
+import style from "./help/Help.module.css";
 
 export function Manual({args = []}) {
     const [description, setDescription] = useState();
@@ -62,6 +62,6 @@ export const ManualData = {
             }
         }
     ],
-    description: "Shows command use",
-    manual: "Shows the extended use manual for the specified command"
+    description: "Show command use",
+    manual: "Show the extended use manual for the specified command"
 }

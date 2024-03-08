@@ -15,6 +15,6 @@ export const EchoData = {
             }
         }
     ],
-    description: "Prints given string",
-    manual: "Prints on the terminal the string specified"
+    description: "Print given string",
+    manual: "Print on the terminal the string specified"
 }

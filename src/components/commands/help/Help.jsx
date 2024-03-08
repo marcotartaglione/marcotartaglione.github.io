@@ -47,7 +47,7 @@ export function Help() {
 
 export const HelpData = {
     args: [],
-    description: "Shows current list",
-    manual: "Shows the list of all the commands the terminal che run"
+    description: "Show current list",
+    manual: "Show the list of all the commands the terminal che run"
 }
 

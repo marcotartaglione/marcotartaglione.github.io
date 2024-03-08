@@ -50,6 +50,6 @@ export const DirectoryContentData = {
             }
         }
     ],
-    description: "Prints directory content",
-    manual: "Prints all the files/links/directory in the specified path"
+    description: "Show directory content",
+    manual: "Show all the files/links/directory in the specified path"
 }

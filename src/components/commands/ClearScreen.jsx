@@ -1,5 +1,5 @@
 import {useEffect} from "react";
-import {useTerminal} from "../../../contexts/terminal/TerminalContext";
+import {useTerminal} from "../../contexts/terminal/TerminalContext";
 
 export function ClearScreen() {
     const terminal = useTerminal();
@@ -13,7 +13,7 @@ export function ClearScreen() {
 
 export const ClearScreenData = {
     args: [],
-    description: "Clears the screen",
+    description: "Clear the screen",
     manual: "When called removes all lines currently visible on the terminal"
 }
 

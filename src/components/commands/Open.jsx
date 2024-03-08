@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react";
-import {useFileSystem} from "../../../contexts/fileSystem/FileSystem";
+import {useFileSystem} from "../../contexts/fileSystem/FileSystem";
 
 // TODO: capire perchè args è un { } invece che un [ ]
 export function Open(args = []) {
@@ -30,6 +30,6 @@ export const OpenData = {
             }
         }
     ],
-    description: "Opens link",
-    manual: "Opens the specified link in a new browser tab"
+    description: "Open link",
+    manual: "Open the specified link in a new browser tab"
 }
