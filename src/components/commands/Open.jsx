@@ -1,7 +1,6 @@
 import {useEffect, useState} from "react";
 import {useFileSystem} from "../../contexts/fileSystem/FileSystem";
 
-// TODO: capire perchè args è un { } invece che un [ ]
 export function Open(args = []) {
     const fileSystem = useFileSystem();
     const [content, setContent] = useState();
@@ -9,13 +8,17 @@ export function Open(args = []) {
     useEffect(() => {
         setContent(() => {
             let link = fileSystem.content(args.args[0])
-            window.open(link);
+
+            if (link === null || link === undefined)
+                return "Path is missing, empty or a directory";
+
+            setTimeout(() => window.open(link), 0);
             return link;
         });
     }, []);
 
     return (
-        <p>{content ? `Aprendo ${content}` : "Path is missing, empty or a directory"}</p>
+        <p>{content}</p>
     )
 }
 

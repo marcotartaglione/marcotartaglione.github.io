@@ -1,15 +1,17 @@
 import {useFileSystem} from "../../contexts/fileSystem/FileSystem";
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
 
 export function ChangeDirectory({args = []}) {
     const fileSystem = useFileSystem();
+    const [content, setContent] = useState("");
 
     useEffect(() => {
-        fileSystem.cd(args[0]);
+        if(!fileSystem.cd(args[0]))
+            setContent("Missing path")
     }, []);
 
     return (
-        <></>
+        <>{content}</>
     )
 }
 

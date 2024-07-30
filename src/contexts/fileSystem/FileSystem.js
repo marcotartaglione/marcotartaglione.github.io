@@ -25,7 +25,7 @@ export function FileSystemProvider({ children }) {
                             {
                                 elementName: 'linkedin',
                                 type: FileSystemElementTypes.LINK,
-                                content: "https://www.linkedin.com/in/marco-tartaglione-b9a02623b/"
+                                content: "https://www.linkedin.com/in/marco-tartaglione/"
                             },
                             {
                                 elementName: 'instagram',
